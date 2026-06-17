@@ -8,7 +8,7 @@ int main() {
     int n, m;
     if (!(cin >> n >> m)) return 0;
 
-    vector<vector<int>> graph(n);
+    vector<vector<int>> graph(n + 1);
 
     for (int i = 0; i < m; i++) {
         int u, v;
@@ -17,7 +17,7 @@ int main() {
         graph[v].push_back(u);
     }
 
-    vector<bool> visited(n, false);
+    vector<bool> visited(n + 1, false);
     int components_count = 0;
 
     for (int i = 1; i <= n; i++) {
@@ -26,15 +26,15 @@ int main() {
 
             queue<int> q;
             q.push(i);
+            visited[i] = true;
 
             while (!q.empty()) {
                 int curr = q.front();
                 q.pop();
-                
-                visited[curr] = true;
 
                 for (int neighbor : graph[curr]) {
                     if (!visited[neighbor]) {
+                        visited[neighbor] = true;
                         q.push(neighbor);
                     }
                 }
@@ -42,7 +42,7 @@ int main() {
         }
     }
 
-    int ans = components_count;
+    int ans = components_count - 1;
     cout << ans << endl;
 
     return 0;
